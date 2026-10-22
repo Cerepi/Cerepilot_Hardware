@@ -12,7 +12,7 @@
 |---|---|---|---|
 | SERIAL0 | USB | MAVLink2 | FMU USB, User Interface_1 |
 | SERIAL1 | UART7 | MAVLink2 (TELEM1) | User Interface_1 |
-| SERIAL2 | UART8 | MAVLink2 | On-board Jetson UART1 (also on User Interface_2, pins 11/12) |
+| SERIAL2 | UART8 | MAVLink2, 57600 | On-board Jetson UART1 (also on User Interface_2, pins 11/12) |
 | SERIAL3 | UART4 | GPS | On-board u-blox MAX-M10N |
 | SERIAL4 | USART1 | MAVLink2 | User Interface_1, RS-232 levels |
 | SERIAL5 | USART2 | RCIN | User Interface_1, SBUS |
@@ -21,17 +21,25 @@ No port has RTS/CTS flow control. SERIAL4 has no DMA; all other ports do.
 
 ## Companion Computer
 
-The Jetson is wired to **SERIAL2**, which defaults to MAVLink2. No jumpers or
-external wiring are needed.
+The Jetson is wired to **SERIAL2**, which defaults to MAVLink2 at 57600 baud.
+No jumpers or external wiring are needed. Raise `SERIAL2_BAUD` on both ends if
+the link needs more throughput.
 
 The same signal pair is also brought out on User Interface_2, pins 11 and 12.
 Leave those pins unconnected when using the on-board Jetson.
 
 ## RC Input
 
-RC input is on **SERIAL5** (`SERIAL5_PROTOCOL = 23`, RCIN). A standard SBUS
-receiver can be wired directly. The signal path has no external inverter, so
-ArduPilot's internal UART inversion handles SBUS.
+RC input is on **SERIAL5** (`SERIAL5_PROTOCOL = 23`, RCIN). The RC pad is
+User Interface_1 pin 3, which is USART2 RX. A standard SBUS receiver can be
+wired directly, and CRSF, FPort and IBUS are auto-detected as well. The signal
+path has no external inverter, so ArduPilot's internal UART inversion handles
+SBUS.
+
+Returning telemetry to the receiver needs half-duplex, which drives the line
+on the USART2 TX pin, User Interface_1 pin 4. Wire a half-duplex receiver to
+pin 4 and set `SERIAL5_OPTIONS = 4` (HalfDuplex), or add SwapTXRX for
+`SERIAL5_OPTIONS = 12` to keep the receiver on pin 3.
 
 ## PWM Outputs
 
@@ -94,9 +102,11 @@ The supply rails are measured through 10 kΩ / 10 kΩ dividers:
 
 ## CAN
 
-CAN1 is on User Interface_2 and CAN2 is on User Interface_1. Both drivers
-are enabled by default (`CAN_P1_DRIVER = 1`, `CAN_P2_DRIVER = 1`). Set the
-protocol with `CAN_D1_PROTOCOL` and `CAN_D2_PROTOCOL`.
+CAN1 is on User Interface_2 and CAN2 is on User Interface_1. Both ports are
+enabled by default and share one driver (`CAN_P1_DRIVER = 1`,
+`CAN_P2_DRIVER = 1`), so `CAN_D1_PROTOCOL` sets the protocol for both and
+`CAN_D2_PROTOCOL` has no effect. Set `CAN_P2_DRIVER = 2` if CAN2 needs a
+protocol of its own.
 
 ## Storage and Logging
 
