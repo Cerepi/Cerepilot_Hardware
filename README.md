@@ -72,7 +72,7 @@ over a hard-wired MAVLink serial link.
 |---|---|
 | PCB size | 80.00 × 65.00 mm |
 | Mounting holes | 75.30 × 60.30 mm pattern, Ø 2 mm |
-| Weight | 55 g |
+| Weight | 35 g, without the Jetson module |
 | Input voltage | 6.5 V – 26 V (2S – 6S LiPo) |
 | FMU MCU | STM32H753VIT6 |
 | Companion | NVIDIA Jetson Orin Nano |

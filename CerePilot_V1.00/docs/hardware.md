@@ -18,7 +18,7 @@ cooler adds to the stack height on that side.
 | PCB size | 80.00 × 65.00 mm |
 | Mounting hole pattern | 75.30 × 60.30 mm |
 | Mounting hole diameter | 2 mm |
-| Weight | 55 g |
+| Weight | 35 g, without the Jetson module |
 
 ![Board outline](../drawings/board-outline.png)
 
