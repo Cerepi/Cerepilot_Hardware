@@ -1,8 +1,7 @@
 # CerePilot V1.00 – Connector Pinout
 
 The tables below follow the user pinout drawing,
-[`drawings/CerePilot_V1.00_User_Pinout.pdf`](../drawings/CerePilot_V1.00_User_Pinout.pdf),
-with one correction on the Ethernet connector (see below).
+[`drawings/CerePilot_V1.00_User_Pinout.pdf`](../drawings/CerePilot_V1.00_User_Pinout.pdf).
 The 3D view in the drawing is the top side of the board. Pin 1 of each
 connector is marked on the drawing.
 
@@ -33,9 +32,6 @@ JST SM04B-ZESS-TB (mating: JST ZER-04V-S)
 | 2 | MTR0_N |
 | 3 | MTR1_P |
 | 4 | MTR1_N |
-
-> **Errata:** the user pinout drawing labels pin 4 as `MTR0_N`. That label is
-> wrong. Pin 4 is `MTR1_N`, as shown in the Ethernet schematic.
 
 The connector carries the transformer-side pairs (MTR0 and MTR1) from the
 WE-LAN 7490100111A magnetics. The connector shield is tied to ground. See

@@ -97,10 +97,6 @@ over a hard-wired MAVLink serial link.
 
 See **[pinout.md](CerePilot_V1.00/docs/pinout.md)** for full pin tables.
 
-> **Errata:** in the drawing above, Ethernet pin 4 is labeled `MTR0_N`. The
-> correct signal is `MTR1_N`, as shown in the
-> [Ethernet schematic](CerePilot_V1.00/schematics/connectors/ethernet.png).
-
 ## Documentation
 
 | Document | Contents |
