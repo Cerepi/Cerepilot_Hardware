@@ -30,16 +30,18 @@ Leave those pins unconnected when using the on-board Jetson.
 
 ## RC Input
 
-RC input is on **SERIAL5** (`SERIAL5_PROTOCOL = 23`, RCIN). The RC pad is
-User Interface_1 pin 3, which is USART2 RX. A standard SBUS receiver can be
-wired directly, and CRSF, FPort and IBUS are auto-detected as well. The signal
-path has no external inverter, so ArduPilot's internal UART inversion handles
-SBUS.
+RC input is on **SERIAL5** (`SERIAL5_PROTOCOL = 23`, RCIN). Unidirectional
+receiver protocols (SBUS, iBUS, DSM and similar) connect to UART_SBUS_RX,
+User Interface_1 pin 3, which is USART2 RX. The signal path has no external
+inverter, so ArduPilot's internal UART inversion handles SBUS. PPM is not
+supported.
 
-Returning telemetry to the receiver needs half-duplex, which drives the line
-on the USART2 TX pin, User Interface_1 pin 4. Wire a half-duplex receiver to
-pin 4 and set `SERIAL5_OPTIONS = 4` (HalfDuplex), or add SwapTXRX for
-`SERIAL5_OPTIONS = 12` to keep the receiver on pin 3.
+For CRSF/ELRS, which is full duplex, connect the receiver's TX to
+UART_SBUS_RX (pin 3) and its RX to UART_SBUS_TX (pin 4), and leave
+`SERIAL5_OPTIONS` at 0.
+
+Half-duplex protocols that share one wire, such as SRXL2 and FPort, have not
+been tested on this board.
 
 ## PWM Outputs
 
@@ -54,8 +56,10 @@ same rate and protocol:
 | 6, 7 | TIM4 |
 | 8, 9 | TIM15 |
 
-All outputs support PWM, OneShot and DShot. Bidirectional DShot is **not**
-supported, because the outputs pass through level translators.
+All outputs support PWM, OneShot and DShot. The outputs pass through TXS0108E
+buffers before reaching the connector. Those are bidirectional, so they do not
+block the return path on their own, but bidirectional DShot has not been
+tested on this board.
 
 Any unused output can be a GPIO (`SERVOn_FUNCTION = -1`):
 
